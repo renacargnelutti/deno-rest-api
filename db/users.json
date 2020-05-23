@@ -1,0 +1,16 @@
+[
+    {
+      "id": "1",
+      "name": "Daniel",
+      "role": "Software Architect",
+      "jiraAdmin": true,
+      "added": "2017-10-15"
+    },
+    {
+      "id": "2",
+      "name": "Markus",
+      "role": "Frontend Engineer",
+      "jiraAdmin": false,
+      "added": "2018-09-01"
+    }
+]
