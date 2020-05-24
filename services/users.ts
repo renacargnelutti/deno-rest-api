@@ -1,13 +1,15 @@
 
-import { fetchData, persistData } from "./db.ts";
 import { User } from "../types/user.ts";
 import createId from "../services/createId.ts";
+
+import { fetchData, persistData } from "./db.ts";
+import { selectAll } from './psql.ts';
 
 type UserData = Pick<User, "name" | "role" | "jiraAdmin">;
 
 export const getUsersService = async (): Promise<User[]> => {
-    const users = await fetchData();
-    return users.sort((a, b) => a.name.localeCompare(b.name));
+    let users = await selectAll();
+    return users;
 };
 
 export const getUserService = async (userId: string): Promise<User | undefined> => {

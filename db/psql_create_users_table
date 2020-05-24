@@ -1,0 +1,12 @@
+// create table
+CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    role VARCHAR(50) NOT NULL,
+    jiraAdmin BOOLEAN,
+    added TIMESTAMP
+)
+
+// insert users
+INSERT INTO users(name, role, jiraAdmin, added) VALUES ('John Due', 'administrator', true, '2020-05-24 10:00:00-03');
+INSERT INTO users(name, role, jiraAdmin, added) VALUES ('Adam Smith', 'administrator', false, '2020-05-24 10:00:00-03');
