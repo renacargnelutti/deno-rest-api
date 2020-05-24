@@ -1,0 +1,11 @@
+version: '3.7'
+
+services:
+    deno_api_database:
+        image: "postgres"
+        env_file:
+            - ../db/database.env
+        ports:
+            - 5432:5432
+        volumes:
+            - ../db/postgresql-data:/var/lib/postgresql/data/
