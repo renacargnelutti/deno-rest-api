@@ -2,7 +2,6 @@
 import { User } from "../types/user.ts";
 import createId from "../services/createId.ts";
 
-import { fetchData, persistData } from "./db.ts";
 import {
     getUsers,
     getUser,
