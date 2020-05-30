@@ -2,7 +2,7 @@
 import client from "../db/database.js";
 import { User } from "../types/user.ts";
 
-export const getUsers = async (): Promise<User[]> => {
+export const psqlGetUsers = async (): Promise<User[]> => {
     let users: any[] = [];
     let data = await client.query("SELECT * FROM users ORDER BY name");
 
@@ -19,7 +19,7 @@ export const getUsers = async (): Promise<User[]> => {
     return users;
 };
 
-export const getUser = async (userId: string): Promise<User | null> => {
+export const psqlGetUser = async (userId: string): Promise<User | null> => {
     let user: any = {};
     let data = await client.query("SELECT * FROM users WHERE id = $1", userId);
 
@@ -34,7 +34,7 @@ export const getUser = async (userId: string): Promise<User | null> => {
     return user;
 };
 
-export const addUser = async (user: any): Promise<void> => {
+export const psqlAddUser = async (user: any): Promise<void> => {
     await client?.query(
         "INSERT INTO users (name, role, jiraAdmin, added) VALUES ($1, $2, $3, $4)",
         user.name,
@@ -44,7 +44,7 @@ export const addUser = async (user: any): Promise<void> => {
     );
 };
 
-export const updateUser = async (user: any, id: string): Promise<void> => {
+export const psqlUpdateUser = async (user: any, id: string): Promise<void> => {
     let query = `UPDATE users `;
     let hasSet = false;
 
@@ -73,7 +73,7 @@ export const updateUser = async (user: any, id: string): Promise<void> => {
     await client?.query(query);
 };
 
-export const deleteUser = async (id: string): Promise<void> => {
+export const psqlDeleteUser = async (id: string): Promise<void> => {
     await client?.query(
         'DELETE FROM users WHERE id=$1',
         id

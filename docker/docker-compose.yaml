@@ -1,7 +1,7 @@
 version: '3.7'
 
 services:
-    deno_api_database:
+    deno_api_postgres_database:
         image: "postgres"
         env_file:
             - ../db/database.env
@@ -9,3 +9,12 @@ services:
             - 5432:5432
         volumes:
             - ../db/postgresql-data:/var/lib/postgresql/data/
+
+    deno_api_mongo_database:
+        image: "mongo"
+        env_file:
+            - ../db/database.env
+        ports:
+            - 27018:27017
+        volumes:
+            - ../db/mongo-data:/data/db

@@ -7,9 +7,10 @@ import {
     deleteUserService
 } from "../services/users.ts";
 
-export const getUsers = async ({ response }: { response: any }) => {
+export const getUsers = async ({ response, request }: { response: any, request: any }) => {
     try {
-        let users = await getUsersService();
+        const db = request.url.searchParams.get('db');
+        let users = await getUsersService(db);
 
         response.status = 200;
         response.body = { success: true, users };
@@ -20,8 +21,9 @@ export const getUsers = async ({ response }: { response: any }) => {
     }
 };
 
-export const getUserDetails = async ({ params, response }: { params: any, response: any }) => {
+export const getUserDetails = async ({ params, response, request }: { params: any, response: any, request: any }) => {
     try {
+        const db = request.url.searchParams.get('db');
         const userId = params.id;
 
         if (!userId) {
@@ -30,7 +32,7 @@ export const getUserDetails = async ({ params, response }: { params: any, respon
             return;
         }
 
-        const foundUser = await getUserService(userId);
+        const foundUser = await getUserService(userId, db);
         if (!foundUser) {
             response.status = 404;
             response.body = { message: `User not found` };
@@ -48,6 +50,8 @@ export const getUserDetails = async ({ params, response }: { params: any, respon
 
 export const createUser = async ({ request, response }: { request: any, response: any }) => {
     try {
+        const db = request.url.searchParams.get('db');
+
         if (!request.hasBody) {
             response.status = 400;
             response.body = { message: "Invalid user data" };
@@ -64,7 +68,7 @@ export const createUser = async ({ request, response }: { request: any, response
             return;
         }
 
-        await createUserService({ name, role, jiraAdmin });
+        await createUserService({ name, role, jiraAdmin }, db);
 
         response.status = 200;
         response.body = { success: true };
@@ -77,6 +81,7 @@ export const createUser = async ({ request, response }: { request: any, response
 
 export const updateUser = async ({ params, request, response }: { params: any, request: any, response: any }) => {
     try {
+        const db = request.url.searchParams.get('db');
         const userId = params.id;
 
         if (!userId) {
@@ -95,7 +100,7 @@ export const updateUser = async ({ params, request, response }: { params: any, r
             value: { name, role, jiraAdmin }
         } = await request.body();
 
-        await updateUserService(userId, { name, role, jiraAdmin });
+        await updateUserService(userId, { name, role, jiraAdmin }, db);
 
         response.status = 200;
         response.body = { success: true, message: "User updated" };
@@ -106,8 +111,9 @@ export const updateUser = async ({ params, request, response }: { params: any, r
     }
 };
 
-export const deleteUser = async ({ params, response }: { params: any, response: any }) => {
+export const deleteUser = async ({ params, response, request }: { params: any, response: any, request: any }) => {
     try {
+        const db = request.url.searchParams.get('db');
         const userId = params.id;
 
         if (!userId) {
@@ -116,14 +122,14 @@ export const deleteUser = async ({ params, response }: { params: any, response: 
             return;
         }
 
-        const foundUser = await getUserService(userId);
+        const foundUser = await getUserService(userId, db);
         if (!foundUser) {
             response.status = 404;
             response.body = { message: `User not found` };
             return;
         }
 
-        await deleteUserService(userId);
+        await deleteUserService(userId, db);
 
         response.status = 200;
         response.body = { success: true, message: "User deleted" };
