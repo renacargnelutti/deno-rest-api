@@ -1,4 +1,6 @@
 db/postgresql-data
+db/mongo-data
+.deno_plugins
 
 # Logs
 logs
